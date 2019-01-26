@@ -1,6 +1,5 @@
 import board.Board;
 import game.Game;
-import gui.Window;
 import piece.Pawn;
 
 public class ChessRunner {

@@ -18,17 +18,11 @@ public class Cell {
 
     private int xPosition, yPosition;   // The coordinates of the cell on the class_board.
 
-    private Color cell_color;           // The cell_color of the cell.
-
     private Piece occupant;             // The piece occupying the cell.
 
     private boolean isOccupied;         // Whether the cell is occupied or not.
 
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
-
-    public Color get_Color() {
-        return cell_color;
-    }
 
     public Piece get_Occupant() {
         return occupant;
@@ -52,11 +46,10 @@ public class Cell {
         return "(" + xPosition + ", " + yPosition + ")";
     }
 
-    Cell(Board board, int x, int y, Color color) {
+    Cell(Board board, int x, int y) {
         cell_board  = board;
         xPosition   = x;
         yPosition   = y;
-        cell_color  = color;
         isOccupied  = false;
 
         cell_board.set_Cell(this, xPosition, yPosition);

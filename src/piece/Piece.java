@@ -16,11 +16,6 @@ public abstract class Piece {
     boolean                 isCaptured;
     Board                   class_board;
     Cell                    cell;
-    javax.swing.ImageIcon   class_image;
-
-    public javax.swing.ImageIcon getImage() {
-        return class_image;
-    }
 
     protected abstract void move(int xChange, int yChange);
     protected abstract void capture(int xChange, int yChange);

@@ -57,10 +57,8 @@ public class Board {
         cellArray   = new Cell[yLength][xLength];   // Due to how 2D arrays are made in Java, it must be made
                                                     // in (Y, X) fashion rather than (X, Y)
         for(int i = 0; i < yLength; i++) {
-            for(int j = 0; j < xLength; j++) {
-                java.awt.Color color = (((j + i) % 2) == 0) ? new java.awt.Color(0, 0, 0) : new java.awt.Color(255, 255, 255);
-                new Cell(this, j, i, color);
-            }
+            for(int j = 0; j < xLength; j++)
+                new Cell(this, j, i);
         }
     }
 

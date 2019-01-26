@@ -54,8 +54,6 @@ public final class Pawn extends Piece {
     public Pawn(board.Board board, int x, int y) {
         super(board, x, y);
         hasMoved = false;
-        class_image = new javax.swing.ImageIcon(getClass().getResource("pawn2.png"));
-        class_image = new javax.swing.ImageIcon(class_image.getImage().getScaledInstance(100, 100, 0));
     }
 
 }
