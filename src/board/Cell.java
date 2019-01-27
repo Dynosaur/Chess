@@ -5,7 +5,7 @@ import java.awt.Color;
 import piece.Piece;
 
 /**
- * 1/25/2019
+ * 1/26/2019
  * @author Alejandro Doberenz
  * @version 0.2
  *
@@ -24,12 +24,27 @@ public class Cell {
 
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
 
+    public Board get_Board() {
+        return cell_board;
+    }
+
+    public int get_X() {
+        return xPosition;
+    }
+    public int get_Y() {
+        return yPosition;
+    }
+
     public Piece get_Occupant() {
         return occupant;
     }
 
-    boolean get_Occupied() {
+    public boolean get_Occupied() {
         return isOccupied;
+    }
+
+    public Cell get_Nearby(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
+        return cell_board.get_Cell(xPosition + xChange, yPosition + yChange);
     }
 
     // </editor-fold>
@@ -53,6 +68,9 @@ public class Cell {
         isOccupied  = false;
 
         cell_board.set_Cell(this, xPosition, yPosition);
+
+        if(cell_board.get_game().get_verbose())
+            System.out.println("\t\t> New Cell created: " + this);
     }
 
 }

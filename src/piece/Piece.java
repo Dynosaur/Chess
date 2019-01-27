@@ -16,6 +16,7 @@ public abstract class Piece {
     boolean                 isCaptured;
     Board                   class_board;
     Cell                    cell;
+    public game.Player      class_player;
 
     protected abstract void move(int xChange, int yChange);
     protected abstract void capture(int xChange, int yChange);
@@ -25,16 +26,24 @@ public abstract class Piece {
         cell = null;
     }
 
+    @Override public String toString() {
+        return getClass().getSimpleName() + ", (" + xPosition + ", " + yPosition + "), " + class_player;
+    }
+
     Piece() {
         isCaptured = false;
     }
-    Piece(Board board, int x, int y) {
+    Piece(Board board, game.Player player, int x, int y) {
         this.class_board = board;
         xPosition = x;
         yPosition = y;
         cell = this.class_board.get_Cell(xPosition, yPosition);
         cell.set_Occupant(this);
+        class_player = player;
         isCaptured = false;
+        if(cell.get_Board().get_game().get_verbose()) {
+            System.out.println("\t\t\t> New " + getClass().getSimpleName() + " belonging to " + class_player + " successfully created at " + cell + ".");
+        }
     }
 
 }
