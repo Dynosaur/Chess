@@ -11,12 +11,6 @@ public final class Pawn extends Piece {
 
     private boolean hasMoved;
 
-    /**
-     *
-     * @param xChange
-     * @param yChange
-     * @return
-     */
     private int checkMove(int xChange, int yChange) {
         if(xChange != 0) {
             System.err.println("xChange is " + xChange + "\nPawns cannot move left or right.");
@@ -101,10 +95,6 @@ public final class Pawn extends Piece {
         }
     }
 
-    public Pawn() {
-        super();
-        hasMoved = false;
-    }
     public Pawn(board.Board board, game.Player player, int x, int y) {
         super(board, player, x, y);
         hasMoved = false;
