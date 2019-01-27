@@ -4,25 +4,21 @@ import java.awt.Color;
 
 public class Player {
 
-    public String class_name;
+    public String name;
 
-    public Color class_color;
+    public Color color;
 
     private Game game;
 
-    public Game get_game() {
-        return game;
-    }
-
     @Override public String toString() {
-        return class_name;
+        return name;
     }
 
-    public Player(Game g, String name, Color color) {
+    public Player(Game g, String n, Color c) {
         game = g;
-        class_name = name;
-        class_color = color;
-        if(game.get_verbose())
+        name = n;
+        color = c;
+        if(game.getVerbose())
             System.out.println("> New Player " + this + " created.");
     }
 

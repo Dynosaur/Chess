@@ -1,7 +1,5 @@
 package board;
 
-import java.awt.Color;
-
 import piece.Piece;
 
 /**
@@ -24,33 +22,33 @@ public class Cell {
 
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
 
-    public Board get_Board() {
+    public Board getBoard() {
         return cell_board;
     }
 
-    public int get_X() {
+    public int getX() {
         return xPosition;
     }
-    public int get_Y() {
+    public int getY() {
         return yPosition;
     }
 
-    public Piece get_Occupant() {
+    public Piece getOccupant() {
         return occupant;
     }
 
-    public boolean get_Occupied() {
+    public boolean getIsOccupied() {
         return isOccupied;
     }
 
-    public Cell get_Nearby(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
-        return cell_board.get_Cell(xPosition + xChange, yPosition + yChange);
+    public Cell getNearbyCell(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
+        return cell_board.getCell(xPosition + xChange, yPosition + yChange);
     }
 
     // </editor-fold>
     // <editor-fold defaulststate="collapsed" desc="Mutator Methods">
 
-    public void set_Occupant(Piece piece) {
+    public void setOccupant(Piece piece) {
         isOccupied = piece != null;
         occupant = piece;
     }
@@ -69,7 +67,7 @@ public class Cell {
 
         cell_board.set_Cell(this, xPosition, yPosition);
 
-        if(cell_board.get_game().get_verbose())
+        if(cell_board.getGame().getVerbose())
             System.out.println("\t\t> New Cell created: " + this);
     }
 

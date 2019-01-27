@@ -20,11 +20,11 @@ public class Board {
 
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
 
-    public int get_xLength() {
+    public int getX() {
         return xLength;
     }
 
-    public int get_yLength() {
+    public int getY() {
         return yLength;
     }
 
@@ -32,11 +32,11 @@ public class Board {
         return cellArray;
     }
 
-    public Cell get_Cell(int x, int y) {
+    public Cell getCell(int x, int y) {
         return cellArray[y][x];
     }
 
-    public Game get_game() {
+    public Game getGame() {
         return game;
     }
 
@@ -51,7 +51,7 @@ public class Board {
     // </editor-fold>
 
     public void consoleDraw() {
-        if(game.get_verbose())
+        if(game.getVerbose())
             System.out.println("\t> Drawing board...");
         // Draw the top of the border
         for(int x = 0; x < xLength*3+4; x++)
@@ -62,9 +62,9 @@ public class Board {
         for(int y = yLength-1; y >= 0; y--) {
             System.out.print("|  ");
             for(int x = 0; x < xLength; x++) {
-                Cell cell = get_Cell(x, y);
-                if(cell.get_Occupied())
-                    System.out.print(cell.get_Occupant().toString().toUpperCase().charAt(0) + "  ");
+                Cell cell = getCell(x, y);
+                if(cell.getIsOccupied())
+                    System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
                 else
                     System.out.print("O  ");
             }
@@ -86,7 +86,7 @@ public class Board {
             for(int j = 0; j < xLength; j++)
                 new Cell(this, j, i);
         }
-        if(game.get_verbose())
+        if(game.getVerbose())
             System.out.println("\t> New board successfully created.");
     }
 

@@ -8,14 +8,14 @@ import board.Board;
  */
 public class Game {
 
-    private Board gameBoard;
+    private Board board;
 
     private boolean verbose;
 
-    public Board get_Board() {
-        return gameBoard;
+    public Board getBoard() {
+        return board;
     }
-    public boolean get_verbose() {
+    public boolean getVerbose() {
         return verbose;
     }
 
@@ -23,7 +23,7 @@ public class Game {
         verbose = v;
         if(verbose)
             System.out.println("> New Game initialized.");
-        gameBoard = new Board(this, x, y);
+        board = new Board(this, x, y);
     }
 
 }
