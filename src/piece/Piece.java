@@ -14,15 +14,16 @@ import game.Player;
 public abstract class Piece {
 
     // <editor-fold defaultstate="collapsed" desc="Variables">
-    private int xPos, yPos;     // The X and Y position of the piece
+    int xPos, yPos;     // The X and Y position of the piece
 
     private boolean isCaptured; // Whether the piece is captured or not
 
-    private Board board;        // The board the piece is on
+    Board board;        // The board the piece is on
     Cell cell;          // The cell the piece is on
     private Player player;      // The player the piece belongs to
     // </editor-fold>
 
+    abstract void onMove();
     /**
      * An abstract method for subclasses to define their rules on movement.
      * @param xChg The change in x from the current cell
@@ -72,6 +73,7 @@ public abstract class Piece {
                 yPos += yChg;
                 cell = cell.getNearbyCell(xChg, yChg);
                 cell.setOccupant(this);
+                onMove();
                 if(board.getGame().getVerbose())
                     System.out.println("\t\t\t> Attempt successful.");
                 return;

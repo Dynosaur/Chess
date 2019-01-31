@@ -12,14 +12,23 @@ public final class Pawn extends Piece {
     private int linearity;
     private boolean hasMoved;
 
+    @Override void onMove() {
+        if(!hasMoved)
+            hasMoved = true;
+    }
+
     @Override boolean pieceMoveSet(int xChg, int yChg) {
-        return ((xChg == 1 && cell.getNearbyCell(1, 0).getIsOccupied()) ||
-                (xChg == -1 && cell.getNearbyCell(-1, 0).getIsOccupied()) ||
-                (yChg != 0) || !(yChg*linearity > 2));
+        return !(yChg*linearity <= 0 || yChg*linearity > 2 ||
+            ( (xChg == 1 || xChg == -1)
+                && (yChg*linearity == 1)
+                && !(cell.getNearbyCell(xChg, yChg).getIsOccupied())
+            ) ||
+            (xChg > 1 || xChg < -1) ||
+            (yChg*linearity == 2 && hasMoved));
     }
 
     public Pawn(board.Board b, game.Player p, int x, int y, int l) {
-        super(b, p, x, y);
+        super(b,p,x,y);
         linearity = l;
         hasMoved = false;
     }

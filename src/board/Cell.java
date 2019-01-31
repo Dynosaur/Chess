@@ -12,9 +12,9 @@ import piece.Piece;
  */
 public class Cell {
 
-    private Board cell_board;           // The class_board the cell is on.
+    private Board board;           // The class_board the cell is on.
 
-    private int xPosition, yPosition;   // The coordinates of the cell on the class_board.
+    private int xPos, yPos;   // The coordinates of the cell on the class_board.
 
     private Piece occupant;             // The piece occupying the cell.
 
@@ -23,14 +23,14 @@ public class Cell {
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
 
     public Board getBoard() {
-        return cell_board;
+        return board;
     }
 
     public int getX() {
-        return xPosition;
+        return xPos;
     }
     public int getY() {
-        return yPosition;
+        return yPos;
     }
 
     public Piece getOccupant() {
@@ -42,7 +42,7 @@ public class Cell {
     }
 
     public Cell getNearbyCell(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
-        return cell_board.getCell(xPosition + xChange, yPosition + yChange);
+        return board.getCell(xPos + xChange, yPos + yChange);
     }
 
     // </editor-fold>
@@ -55,19 +55,23 @@ public class Cell {
 
     // </editor-fold>
 
-    @Override public String toString() {
-        return "(" + xPosition + ", " + yPosition + ")";
+    public boolean equals(Cell cell) {
+        return cell.board == board && cell.xPos == xPos && cell.yPos == yPos;
     }
 
-    Cell(Board board, int x, int y) {
-        cell_board  = board;
-        xPosition   = x;
-        yPosition   = y;
+    @Override public String toString() {
+        return "(" + xPos + ", " + yPos + ")";
+    }
+
+    Cell(Board b, int x, int y) {
+        board = b;
+        xPos = x;
+        yPos = y;
         isOccupied  = false;
 
-        cell_board.set_Cell(this, xPosition, yPosition);
+        board.set_Cell(this, xPos, yPos);
 
-        if(cell_board.getGame().getVerbose())
+        if(board.getGame().getVerbose())
             System.out.println("\t\t> New Cell created: " + this);
     }
 
