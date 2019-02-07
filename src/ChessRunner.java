@@ -3,6 +3,9 @@ import game.Game;
 import game.Player;
 import piece.*;
 
+/**
+ * This class runs the Chess program by creating a game.
+ */
 public class ChessRunner {
 
     private static void scanBoardCell(Board b) {
@@ -20,10 +23,9 @@ public class ChessRunner {
 
     public static void main(String[] args) {
         Game g1 = new Game(true,8,8);
-        Player p1 = new Player(g1, "Alejandro", java.awt.Color.WHITE);
-        Player p2 = new Player(g1, "Quinn", java.awt.Color.BLACK);
+        Player p1 = new Player(g1, "Alejandro");
+        Player p2 = new Player(g1, "Quinn");
         Board gameBoard = g1.getBoard();
-        /*
         Pawn pw1 = new Pawn(gameBoard, p1, 0,1,1);
         Pawn pw2 = new Pawn(gameBoard, p1, 1,1,1);
         Pawn pw3 = new Pawn(gameBoard, p1, 2,1,1);
@@ -37,11 +39,12 @@ public class ChessRunner {
         Rook r2 = new Rook(gameBoard, p1,7,0);
         Bishop b1 = new Bishop(gameBoard, p1,2,0);
         Bishop b2 = new Bishop(gameBoard,p1,5,0);
-        */
         HorseKnight h1 = new HorseKnight(gameBoard, p1,1,0);
         HorseKnight h2 = new HorseKnight(gameBoard, p1,6,0);
+        Queen q1 = new Queen(gameBoard,p1,3,0);
+        q1.move(0,6);
+        r1.move(0,3);
         gameBoard.consoleDraw();
-        h1.move(0,1);
         gameBoard.consoleDraw();
     }
 

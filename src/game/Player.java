@@ -6,18 +6,15 @@ public class Player {
 
     public String name;
 
-    public Color color;
-
     private Game game;
 
     @Override public String toString() {
         return name;
     }
 
-    public Player(Game g, String n, Color c) {
+    public Player(Game g, String n) {
         game = g;
         name = n;
-        color = c;
         if(game.getVerbose())
             System.out.println("> New Player " + this + " created.");
     }
