@@ -42,9 +42,8 @@ public class ChessRunner {
         HorseKnight h1 = new HorseKnight(gameBoard, p1,1,0);
         HorseKnight h2 = new HorseKnight(gameBoard, p1,6,0);
         Queen q1 = new Queen(gameBoard,p1,3,0);
-        q1.move(0,6);
-        r1.move(0,3);
         gameBoard.consoleDraw();
+        q1.move(3,3);
         gameBoard.consoleDraw();
     }
 
