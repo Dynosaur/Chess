@@ -27,6 +27,9 @@ public final class Pawn extends Piece {
             (yChg*linearity == 2 && hasMoved));
     }
 
+    public Pawn(int x, int y) {
+        super(x,y);
+    }
     public Pawn(board.Board b, game.Player p, int x, int y, int l) {
         super(b,p,x,y);
         linearity = l;

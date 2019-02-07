@@ -19,7 +19,7 @@ public class Game {
         return verbose;
     }
 
-    public Game(boolean v, int x, int y) {
+    public Game(boolean v, int x, int y, PieceLayout pl) {
         verbose = v;
         if(verbose)
             System.out.println("> New Game initialized.");

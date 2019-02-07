@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Player {
 
-    public String name;
+    private String name;
 
     private Game game;
 

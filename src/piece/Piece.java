@@ -17,10 +17,34 @@ public abstract class Piece {
     int xPos, yPos;     // The X and Y position of the piece
 
     private boolean isCaptured; // Whether the piece is captured or not
+    private boolean isMovable;
 
     Board board;        // The board the piece is on
     Cell cell;          // The cell the piece is on
     private Player player;      // The player the piece belongs to
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Accessors Methods">
+    public Board getBoard() {
+        return board;
+    }
+    public int getX() {
+        return xPos;
+    }
+    public int getY() {
+        return yPos;
+    }
+    public Cell getCell() {
+        return cell;
+    }
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Mutator Methods">
+    public void setBoard(Board b) {
+        board = b;
+    }
+    public void setCell(Cell c) {
+        cell = c;
+    }
     // </editor-fold>
 
     abstract void onMove();
@@ -63,22 +87,25 @@ public abstract class Piece {
         if(board.getGame().getVerbose())
             System.out.println("\t\t\t> Attempting to move " + this + " by (" + xChg + ", " + yChg + ") units.");
 
-        if(!isCaptured) {
-            if(isValidMove(xChg, yChg)) {
-                Cell target = cell.getNearbyCell(xChg, yChg);
-                if(target.getIsOccupied())
-                    target.getOccupant().captured();
-                cell.setOccupant(null);
-                xPos += xChg;
-                yPos += yChg;
-                cell = cell.getNearbyCell(xChg, yChg);
-                cell.setOccupant(this);
-                onMove();
-                if(board.getGame().getVerbose())
-                    System.out.println("\t\t\t> Attempt successful.");
-                return;
+        if(!isMovable) {
+            if (!isCaptured) {
+                if (isValidMove(xChg, yChg)) {
+                    Cell target = cell.getNearbyCell(xChg, yChg);
+                    if (target.getIsOccupied())
+                        target.getOccupant().captured();
+                    cell.setOccupant(null);
+                    xPos += xChg;
+                    yPos += yChg;
+                    cell = cell.getNearbyCell(xChg, yChg);
+                    cell.setOccupant(this);
+                    onMove();
+                    if (board.getGame().getVerbose())
+                        System.out.println("\t\t\t> Attempt successful.");
+                    return;
+                }
             }
         }
+
         if(board.getGame().getVerbose())
             System.out.println("\t\t\t> Attempt failed.");
     }
@@ -98,11 +125,16 @@ public abstract class Piece {
         return "(" + getClass().getSimpleName() + ", (" + xPos + ", " + yPos + "), " + player + ")";
     }
 
+    public Piece(int x, int y) {
+        xPos = x; yPos = y;
+        isMovable = false;
+    }
     Piece(Board b, Player p, int x, int y) {
         board = b; xPos = x; yPos = y;
         player = p; isCaptured = false;
         cell = board.getCell(xPos, yPos);
         cell.setOccupant(this);
+        isMovable = true;
         if(board.getGame().getVerbose()) {
             System.out.println("\t\t\t> New " + getClass().getSimpleName() + " belonging to " + player + " successfully created at " + cell + ".");
         }
