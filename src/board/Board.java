@@ -50,25 +50,39 @@ public class Board {
 
     // </editor-fold>
 
-    public void consoleDraw() {
+    public void consoleDraw(boolean whiteBottom) {
         if(game.getVerbose())
-            System.out.println("\t> Drawing board...");
+            System.out.println("\t> Drawing board...\tWhite is bottom: " + whiteBottom);
         // Draw the top of the border
         for(int x = 0; x < xLength*3+4; x++)
             System.out.print("-");
         System.out.println();
 
         // Draw each row
-        for(int y = yLength-1; y >= 0; y--) {
-            System.out.print("|  ");
-            for(int x = 0; x < xLength; x++) {
-                Cell cell = getCell(x, y);
-                if(cell.getIsOccupied())
-                    System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
-                else
-                    System.out.print("O  ");
+        if(whiteBottom) {
+            for(int y = yLength - 1; y >= 0; y--) {
+                System.out.print("|  ");
+                for(int x = 0; x < xLength; x++) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied())
+                        System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
+                    else
+                        System.out.print("O  ");
+                }
+                System.out.println("|");
             }
-            System.out.println("|");
+        } else {
+            for(int y = 0; y < yLength; y++) {
+                System.out.print("|  ");
+                for(int x = xLength-1; x >= 0; x--) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied())
+                        System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
+                    else
+                        System.out.print("O  ");
+                }
+                System.out.println("|");
+            }
         }
 
         // Draw the bottom of the border
@@ -78,10 +92,10 @@ public class Board {
     }
 
     public Board(Game g, int x, int y) {
-        xLength     = x;
-        yLength     = y;
-        cellArray   = new Cell[yLength][xLength];   // Due to how 2D arrays are made in Java, it must be made
-        game        = g;                            // in (Y, X) fashion rather than (X, Y)
+        xLength = x;
+        yLength = y;
+        game = g;                                   // in (Y, X) fashion rather than (X, Y)
+        cellArray = new Cell[yLength][xLength];     // Due to how 2D arrays are made in Java, it must be made
         for(int i = 0; i < yLength; i++) {
             for(int j = 0; j < xLength; j++)
                 new Cell(this, j, i);

@@ -3,25 +3,26 @@ package board;
 import piece.Piece;
 
 /**
- * 1/26/2019
+ * 2/8/2019
  * @author Alejandro Doberenz
- * @version 0.2
+ * @version 0.3
  *
- * A Cell represents a single cell inside of a chessboard. A cell is part of a class_board, has an X and Y position,
- * a color, and a piece that is on it (Or lack thereof).
+ * A Cell represents a single cell inside of a chessboard. A cell is part of a board, has an X and Y position,
+ * and a piece (or not) upon it.
  */
-public class Cell {
+public final class Cell {
 
-    private Board board;           // The class_board the cell is on.
+    // <editor-fold defaultstate="collapsed" desc="Variables">
+    private Board board;            // The board the cell is on.
 
-    private int xPos, yPos;   // The coordinates of the cell on the class_board.
+    private int xPos, yPos;         // The coordinates of the cell on the board.
 
-    private Piece occupant;             // The piece occupying the cell.
+    private Piece occupant;         // The piece occupying the cell.
 
-    private boolean isOccupied;         // Whether the cell is occupied or not.
+    private boolean isOccupied;     // Whether the cell is occupied or not.
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
-
     public Board getBoard() {
         return board;
     }
@@ -44,15 +45,12 @@ public class Cell {
     public Cell getNearbyCell(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
         return board.getCell(xPos + xChange, yPos + yChange);
     }
-
     // </editor-fold>
     // <editor-fold defaulststate="collapsed" desc="Mutator Methods">
-
     public void setOccupant(Piece piece) {
         isOccupied = piece != null;
         occupant = piece;
     }
-
     // </editor-fold>
 
     public boolean equals(Cell cell) {
@@ -68,9 +66,7 @@ public class Cell {
         xPos = x;
         yPos = y;
         isOccupied  = false;
-
         board.set_Cell(this, xPos, yPos);
-
         if(board.getGame().getVerbose())
             System.out.println("\t\t> New Cell created: " + this);
     }

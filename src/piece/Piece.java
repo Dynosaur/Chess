@@ -4,6 +4,8 @@ import board.Board;
 import board.Cell;
 import game.Player;
 
+import java.awt.Color;
+
 /**
  * 1/27/2019
  * @author Alejandro Doberenz
@@ -14,28 +16,31 @@ import game.Player;
 public abstract class Piece {
 
     // <editor-fold defaultstate="collapsed" desc="Variables">
-    int xPos, yPos;     // The X and Y position of the piece
+    int xPos, yPos;             // The X and Y position of the piece
 
-    private boolean isCaptured; // Whether the piece is captured or not
-    private boolean isMovable;
+    boolean isCaptured;         // Whether the piece is captured or not
 
-    Board board;        // The board the piece is on
-    Cell cell;          // The cell the piece is on
-    private Player player;      // The player the piece belongs to
+    Board board;                // The board the piece is on
+    Cell cell;                  // The cell the piece is on
+    Color color;
+    Player player;              // The player the piece belongs to
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Accessors Methods">
-    public Board getBoard() {
-        return board;
-    }
     public int getX() {
         return xPos;
     }
     public int getY() {
         return yPos;
     }
+    public Board getBoard() {
+        return board;
+    }
     public Cell getCell() {
         return cell;
+    }
+    public Color getColor() {
+        return color;
     }
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Mutator Methods">
@@ -44,6 +49,9 @@ public abstract class Piece {
     }
     public void setCell(Cell c) {
         cell = c;
+    }
+    public void setPlayer(Player p) {
+        player = p;
     }
     // </editor-fold>
 
@@ -64,17 +72,27 @@ public abstract class Piece {
      * @return If the piece can move to the target cell.
      */
     private boolean isValidMove(int xChg, int yChg) {
-        if(xChg == 0 && yChg == 0)
+        if(xChg == 0 && yChg == 0) {
+            if(board.getGame().getVerbose())
+                System.out.println("\t\t\t> No move is made.");
             return false;
+        }
         Cell target;
         try {
             target = cell.getNearbyCell(xChg, yChg);
         } catch(ArrayIndexOutOfBoundsException ex) {
+            if(board.getGame().getVerbose())
+                System.out.println("\t\t\t> Target is out of board.");
             return false;
         }
-        if(target.getIsOccupied())
-            if(target.getOccupant().player == (player))
+        if(target.getIsOccupied()) {
+            if (target.getOccupant().player == (player)) {
+                if(board.getGame().getVerbose()) {
+                    System.out.println("\t\t\t> Target has friendly piece in it.");
+                }
                 return false;
+            }
+        }
         return pieceMoveSet(xChg, yChg);
     }
 
@@ -87,11 +105,10 @@ public abstract class Piece {
         if(board.getGame().getVerbose())
             System.out.println("\t\t\t> Attempting to move " + this + " by (" + xChg + ", " + yChg + ") units.");
 
-        if(!isMovable) {
-            if (!isCaptured) {
-                if (isValidMove(xChg, yChg)) {
+        if(!isCaptured) {
+            if(isValidMove(xChg, yChg)) {
                     Cell target = cell.getNearbyCell(xChg, yChg);
-                    if (target.getIsOccupied())
+                    if(target.getIsOccupied())
                         target.getOccupant().captured();
                     cell.setOccupant(null);
                     xPos += xChg;
@@ -102,8 +119,13 @@ public abstract class Piece {
                     if (board.getGame().getVerbose())
                         System.out.println("\t\t\t> Attempt successful.");
                     return;
-                }
+            } else {
+                if(board.getGame().getVerbose())
+                    System.out.println("\t\t\t> Piece move is not valid.");
             }
+        } else {
+            if(board.getGame().getVerbose())
+                System.out.println("\t\t\t> Piece is captured.");
         }
 
         if(board.getGame().getVerbose())
@@ -125,16 +147,19 @@ public abstract class Piece {
         return "(" + getClass().getSimpleName() + ", (" + xPos + ", " + yPos + "), " + player + ")";
     }
 
-    public Piece(int x, int y) {
-        xPos = x; yPos = y;
-        isMovable = false;
+    public Piece(Color c, int x, int y) {
+        xPos = x;
+        yPos = y;
+        color = c;
     }
     Piece(Board b, Player p, int x, int y) {
-        board = b; xPos = x; yPos = y;
-        player = p; isCaptured = false;
+        board = b;
+        xPos = x;
+        yPos = y;
+        player = p;
         cell = board.getCell(xPos, yPos);
         cell.setOccupant(this);
-        isMovable = true;
+        isCaptured = false;
         if(board.getGame().getVerbose()) {
             System.out.println("\t\t\t> New " + getClass().getSimpleName() + " belonging to " + player + " successfully created at " + cell + ".");
         }

@@ -1,6 +1,6 @@
 package piece;
 
-public class Bishop extends Piece {
+public final class Bishop extends Piece {
 
     private boolean checkBishopMove(int xChg, int yChg) {
         board.Cell target = cell;
@@ -18,6 +18,9 @@ public class Bishop extends Piece {
         return ( (xChg == yChg) && checkBishopMove(xChg, yChg) );
     }
 
+    public Bishop(java.awt.Color c, int x, int y) {
+        super(c,x,y);
+    }
     public Bishop(board.Board b, game.Player p, int x, int y) {
         super(b,p,x,y);
     }

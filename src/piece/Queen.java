@@ -3,7 +3,7 @@ package piece;
 import board.Board;
 import game.Player;
 
-public class Queen extends Piece {
+public final class Queen extends Piece {
 
     @Override void onMove() {}
 
@@ -38,6 +38,9 @@ public class Queen extends Piece {
         return false;
     }
 
+    public Queen(java.awt.Color c,int x, int y) {
+        super(c,x,y);
+    }
     public Queen(Board b, Player p, int x, int y) {
         super(b,p,x,y);
     }

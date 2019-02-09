@@ -31,6 +31,9 @@ public final class Rook extends Piece {
         return xChg != xPos && yChg != yPos;
     }
 
+    public Rook(java.awt.Color c, int x, int y) {
+        super(c,x,y);
+    }
     public Rook(board.Board b, game.Player p, int x, int y) {
         super(b,p,x,y);
     }

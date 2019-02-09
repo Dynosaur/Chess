@@ -2,9 +2,11 @@ package game;
 
 import piece.Piece;
 
+import java.awt.*;
+
 public class PieceLayout {
 
-    private Piece[] pieces;
+    Piece[] pieces;
 
     private Game game;
 
@@ -18,6 +20,12 @@ public class PieceLayout {
     void populate() {
         for(Piece piece : pieces) {
             piece.setBoard(game.getBoard());
+            piece.setCell(piece.getBoard().getCell(piece.getX(), piece.getY()));
+            piece.getCell().setOccupant(piece);
+            if (game.getVerbose()) {
+                String color = (piece.getColor() == Color.BLACK) ? "Black" : "White";
+                System.out.println("\t\t\t> " + color + " " + piece.getClass().getSimpleName() + " added to the game.");
+            }
         }
     }
 

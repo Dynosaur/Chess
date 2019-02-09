@@ -14,6 +14,9 @@ public final class King extends Piece {
         return !(xChg < -1 || xChg > 1 || yChg < -1 || yChg > 1);
     }
 
+    public King(java.awt.Color c, int x, int y) {
+        super(c,x,y);
+    }
     public King(board.Board b, game.Player p, int x, int y) {
         super(b,p,x,y);
     }
