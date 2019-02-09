@@ -34,11 +34,21 @@ public class ChessRunner {
     }
     private static void newGame() {
         newGameLoop: while(true) {
-            System.out.println("\t\tOPTIONS\n\tLAYOUT\tStandard");
+            System.out.println("\n\t\tOPTIONS\n\tLAYOUT\tStandard\n");
             String input = getStringInput();
             switch(input) {
                 case "back":
                     break newGameLoop;
+                case "exit":
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+                    break;
+                case "help":
+                    help();
+                    break;
+                default:
+                    System.out.println("\'" + input + "\' is not an available option.");
+                    break;
             }
         }
     }
@@ -65,6 +75,7 @@ public class ChessRunner {
                     break;
                 default:
                     System.out.println("\'" + input + "\' is not an available option.");
+                    break;
             }
         }
     }
