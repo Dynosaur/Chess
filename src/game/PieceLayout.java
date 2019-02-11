@@ -6,14 +6,17 @@ import java.awt.*;
 
 public class PieceLayout {
 
-    Piece[] pieces;
+    private int reqX, reqY;
+
+    private Piece[] pieces;
 
     private Game game;
 
-    public PieceLayout(int xSize, int ySize, Game g, Piece... p) {
-        if(g.getBoard().getX() != xSize || g.getBoard().getY() != ySize)
-            throw new IllegalArgumentException("Board is incorrect size.");
-        pieces = p;
+    public String name;
+
+    public void setGame(Game g) {
+        if(game.getBoard().getX() < reqX || game.getBoard().getY() < reqY)
+            throw new IllegalArgumentException("Given board is smaller than required.");
         game = g;
     }
 
@@ -27,6 +30,13 @@ public class PieceLayout {
                 System.out.println("\t\t\t> " + color + " " + piece.getClass().getSimpleName() + " added to the game.");
             }
         }
+    }
+
+    public PieceLayout(String n, int x, int y, Piece... p) {
+        name = n;
+        reqX = x;
+        reqY = y;
+        pieces = p;
     }
 
 }
