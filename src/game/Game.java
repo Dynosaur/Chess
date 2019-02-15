@@ -12,7 +12,7 @@ import game.type.GameType;
  * A Game object is supposed to represent all the components of a chess game. This includes the rules, the size
  * of the board used, where the pieces are placed, and some other program functions.
  */
-public class Game {
+public class Game implements Runnable {
 
     // <editor-fold defaultstate="collapsed" desc="Variables">
     private boolean verbose;
@@ -33,21 +33,24 @@ public class Game {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Mutator Methods">
-    public void setPieceLayout(PieceLayout pl) {
-        pieceLayout = pl;
-        if(verbose)
-            System.out.println("> " + pieceLayout.getClass().getSimpleName() + " placing pieces...");
-        pieceLayout.populate();
+    @Override public void run() {
+        boolean whiteTurn = true;
+        board.consoleDraw(true);
+        /*
+        gameLoop: while(true) {
+
+        }
+        */
     }
-    // </editor-fold>
 
     public Game(boolean v, GameType gt) {
         verbose = v;
         gameType = gt;
-        if(verbose)
-            System.out.println("> New Game initialized.");
+        pieceLayout = gameType.getPieceLayout();
+        System.out.println("\tNew Game initialized.");
         board = new Board(this,gameType.getXSize(),gameType.getYSize());
+        pieceLayout.setGame(this);
+        pieceLayout.populate();
     }
 
 }

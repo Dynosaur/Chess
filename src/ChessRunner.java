@@ -2,7 +2,9 @@ import game.layout.PieceLayout;
 import game.type.GameType;
 import game.type.NineHorses;
 import game.type.StandardChess;
+import game.Game;
 
+import java.awt.Color;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -10,7 +12,8 @@ public abstract class ChessRunner {
 
     private static GameType gameType;
     private static PieceLayout gameLayout;
-    private static boolean gameVerbosity;
+    private static boolean gameVerbosity, gameSingleplayer;
+    private static Color gamePlayerColor = Color.WHITE;
     private static StandardChess standard = new StandardChess();
     private static NineHorses nineHorses = new NineHorses();
     private static GameType[] gameTypes = {standard, nineHorses};
@@ -57,9 +60,9 @@ public abstract class ChessRunner {
             }
         }
     }
-    private static void verbosity() {
+    private static void verbose() {
         verboseLoop: while(true) {
-            System.out.println("\n\t\tVERBOSITY OPTIONS\n" +
+            System.out.println("\n\t\tVERBOSE OPTIONS\n" +
             "\tON\tTurn verbose mode on, printing additional information in the console.\n" +
             "\tOFF\tTurn verbose mode off.\n");
             String input = getStringInput();
@@ -115,16 +118,76 @@ public abstract class ChessRunner {
             }
         }
     }
+    private static void mode() {
+        modeLoop: while(true) {
+            System.out.println("\n\t\tMODE OPTIONS\n" +
+                    "\tSINGLEPLAYER\tPlay against the computer.\n" +
+                    "\tMULTIPLAYER\t\tPlay locally against an opponent.\n");
+            String input = getStringInput();
+            switch(input.toLowerCase().trim()) {
+                case "back":
+                    break modeLoop;
+                case "exit":
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+                    break;
+                case "help":
+                    help();
+                    break;
+                case "singleplayer":
+                    gameSingleplayer = true;
+                    break modeLoop;
+                case "multiplayer":
+                    gameSingleplayer = false;
+                    break modeLoop;
+                default:
+                    System.out.println("\'" + input + "\' is not an available option.");
+                    break;
+            }
+        }
+    }
+    private static void color() {
+        colorLoop: while(true) {
+            System.out.println("\n\t\tCOLOR OPTIONS\n" +
+            "\tWHITE\tBe the White player.\n" +
+            "\tBLACK\tBe the Black player.\n");
+            String input = getStringInput();
+            switch(input.toLowerCase().trim()) {
+                case "back":
+                    break colorLoop;
+                case "exit":
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+                    break;
+                case "help":
+                    help();
+                    break;
+                case "white":
+                    gamePlayerColor = Color.WHITE;
+                    break colorLoop;
+                case "black":
+                    gamePlayerColor = Color.BLACK;
+                    break colorLoop;
+                default:
+                    System.out.println("\'" + input + "\' is not an available option.");
+                    break;
+            }
+        }
+    }
     private static void newGame() {
         gameType = standard;
         gameLayout = gameType.getPieceLayout();
         gameVerbosity = false;
+        gameSingleplayer = true;
         newGameLoop: while(true) {
             System.out.println("\n\t\tOPTIONS\n" +
             "\tGAME TYPE\t" + gameType.name + "\n" +
-            "\tVERBOSITY\t" + ((gameVerbosity) ? "On" : "Off") + "\n" +
+            "\tMODE\t\t" + ((gameSingleplayer) ? "Singleplayer" : "Multiplayer") + "\n" +
+            "\tCOLOR\t\t" + (gamePlayerColor.equals(Color.WHITE) ? "White" : "Black") + "\n" +
+            "\tVERBOSE\t\t" + ((gameVerbosity) ? "On" : "Off") + "\n" +
             "\tLayout\t\t" + gameLayout.name + "\n" +
-            "\tBoard Size\t" + gameType.getXSize() + "x" + gameType.getYSize() + "\n");
+            "\tBoard Size\t" + gameType.getXSize() + "x" + gameType.getYSize() + "\n" +
+            "\n\tSTART\tStart the game.");
             String input = getStringInput();
             switch(input.toLowerCase().trim()) {
                 case "back":
@@ -136,15 +199,28 @@ public abstract class ChessRunner {
                 case "game type":
                     gameType();
                     break;
+                case "mode":
+                    mode();
+                    break;
+                case "color":
+                    color();
+                    break;
+                case "verbose":
+                    verbose();
+                    break;
                 case "layout":
                     System.out.println("Layout cannot be edited.");
+                    break;
+                case "board size":
+                    System.out.println("Board size cannot be edited.");
                     break;
                 case "help":
                     help();
                     break;
-                case "verbosity":
-                    verbosity();
-                    break;
+                case "start":
+                    Game game = new Game(gameVerbosity, gameType);
+                    game.run();
+                    break newGameLoop;
                 default:
                     System.out.println("\'" + input + "\' is not an available option.");
                     break;

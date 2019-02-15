@@ -16,7 +16,7 @@ public class PieceLayout {
     public String name;
 
     public void setGame(Game g) {
-        if(game.getBoard().getX() < reqX || game.getBoard().getY() < reqY)
+        if(g.getBoard().getX() < reqX || g.getBoard().getY() < reqY)
             throw new IllegalArgumentException("Given board is smaller than required.");
         game = g;
     }
