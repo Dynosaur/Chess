@@ -1,6 +1,8 @@
 package game;
 
 import board.Board;
+import game.layout.PieceLayout;
+import game.type.GameType;
 
 /**
  * 2/10/2019

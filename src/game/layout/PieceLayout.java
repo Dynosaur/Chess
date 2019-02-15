@@ -1,5 +1,6 @@
-package game;
+package game.layout;
 
+import game.Game;
 import piece.Piece;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ public class PieceLayout {
         game = g;
     }
 
-    void populate() {
+    public void populate() {
         for(Piece piece : pieces) {
             piece.setBoard(game.getBoard());
             piece.setCell(piece.getBoard().getCell(piece.getX(), piece.getY()));

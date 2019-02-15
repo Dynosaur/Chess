@@ -1,8 +1,10 @@
-package game;
+package game.type;
+
+import game.layout.PieceLayout;
 
 public abstract class GameType {
 
-    public String name;
+    public String name, description;
 
     private int boardXSize, boardYSize;
 
@@ -18,8 +20,9 @@ public abstract class GameType {
         return pieceLayout;
     }
 
-    public GameType(String n, int x, int y, PieceLayout pl) {
+    public GameType(String n, String desc, int x, int y, PieceLayout pl) {
         name = n;
+        description = desc;
         boardXSize = x;
         boardYSize = y;
         pieceLayout = pl;

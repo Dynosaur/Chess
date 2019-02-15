@@ -1,4 +1,4 @@
-package game;
+package game.layout;
 
 import piece.Bishop;
 import piece.HorseKnight;
