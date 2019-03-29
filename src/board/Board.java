@@ -3,51 +3,20 @@ package board;
 import game.Game;
 
 /**
- * 1/25/2019
  * @author Alejandro Doberenz
- * @version 0.30
+ * @version 3/26/2019
  *
- * A Board represents the class_board a game of chess is played on. A class_board has an X and Y length (Measured in cellArray), and a
+ * A Board represents the board a game of chess is played on. A board has an X and Y length (Measured in cellArray), and a
  * 2D array of every cell that makes it up.
  */
 public class Board {
 
+    // <editor-fold defaultstate="collapsed" desc="Variables">
     private int xLength, yLength;   // The number of Cells along the X and Y axis.
 
-    private Cell[][] cellArray;     // A 2D representation of the class_board. (Y, X)
+    private Cell[][] cellArray;     // A 2D representation of the board. (Y, X)
 
     private Game game;
-
-    // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
-
-    public int getX() {
-        return xLength;
-    }
-
-    public int getY() {
-        return yLength;
-    }
-
-    public Cell[][] get_CellArray() {
-        return cellArray;
-    }
-
-    public Cell getCell(int x, int y) {
-        return cellArray[y][x];
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Mutator Methods">
-
-    void set_Cell(Cell cell, int x, int y) {
-        cellArray[y][x] = cell;
-    }
-
     // </editor-fold>
 
     public void consoleDraw(boolean whiteBottom) {
@@ -103,5 +72,19 @@ public class Board {
         if(game.getVerbose())
             System.out.println("\t> New board successfully created.");
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public int getX()                       { return xLength; }
+
+    public int getY()                       { return yLength; }
+
+    public Cell[][] get_CellArray()         { return cellArray; }
+
+    public Cell getCell(int x, int y)       { return cellArray[y][x]; }
+
+    public Game getGame()                   { return game; }
+
+    void set_Cell(Cell cell, int x, int y)  { cellArray[y][x] = cell; }
+    // </editor-fold>
 
 }

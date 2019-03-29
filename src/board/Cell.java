@@ -3,9 +3,8 @@ package board;
 import piece.Piece;
 
 /**
- * 2/8/2019
  * @author Alejandro Doberenz
- * @version 0.3
+ * @version 3/26/2019
  *
  * A Cell represents a single cell inside of a chessboard. A cell is part of a board, has an X and Y position,
  * and a piece (or not) upon it.
@@ -13,44 +12,13 @@ import piece.Piece;
 public final class Cell {
 
     // <editor-fold defaultstate="collapsed" desc="Variables">
-    private Board board;            // The board the cell is on.
+    private boolean isOccupied;     // Whether the cell is occupied or not.
 
     private int xPos, yPos;         // The coordinates of the cell on the board.
 
+    private Board board;            // The board the cell is on.
+
     private Piece occupant;         // The piece occupying the cell.
-
-    private boolean isOccupied;     // Whether the cell is occupied or not.
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
-    public Board getBoard() {
-        return board;
-    }
-
-    public int getX() {
-        return xPos;
-    }
-    public int getY() {
-        return yPos;
-    }
-
-    public Piece getOccupant() {
-        return occupant;
-    }
-
-    public boolean getIsOccupied() {
-        return isOccupied;
-    }
-
-    public Cell getNearbyCell(int xChange, int yChange) throws ArrayIndexOutOfBoundsException {
-        return board.getCell(xPos + xChange, yPos + yChange);
-    }
-    // </editor-fold>
-    // <editor-fold defaulststate="collapsed" desc="Mutator Methods">
-    public void setOccupant(Piece piece) {
-        isOccupied = piece != null;
-        occupant = piece;
-    }
     // </editor-fold>
 
     public boolean equals(Cell cell) {
@@ -70,5 +38,24 @@ public final class Cell {
         if(board.getGame().getVerbose())
             System.out.println("\t\t> New Cell created: " + this);
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public boolean getIsOccupied() { return isOccupied; }
+
+    public int getX() { return xPos; }
+
+    public int getY() { return yPos; }
+
+    public Board getBoard()     { return board; }
+
+    public Cell getNearbyCell(int xChange, int yChange) throws ArrayIndexOutOfBoundsException { return board.getCell(xPos + xChange, yPos + yChange); }
+
+    public Piece getOccupant()  { return occupant; }
+
+    public void setOccupant(Piece piece) {
+        isOccupied = piece != null;
+        occupant = piece;
+    }
+    // </editor-fold>
 
 }
