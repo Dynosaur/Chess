@@ -1,168 +1,57 @@
 package piece;
 
 import board.Board;
+
 import board.Cell;
+
 import game.Player;
 
 import java.awt.Color;
 
 /**
- * 1/27/2019
  * @author Alejandro Doberenz
- * @version 0.3.1
- *
- * A Piece is an object that comprises of game pieces meant to be placed upon the board and moved.
+ * @version 4/27/2019
  */
-public abstract class Piece {
+public abstract class Piece implements Cloneable {
 
-    // <editor-fold defaultstate="collapsed" desc="Variables">
-    int xPos, yPos;             // The X and Y position of the piece
+    int xPosition, yPosition;
 
-    boolean isCaptured;         // Whether the piece is captured or not
+    private Board board;
 
-    Board board;                // The board the piece is on
-    Cell cell;                  // The cell the piece is on
-    Color color;
-    Player player;              // The player the piece belongs to
-    // </editor-fold>
+    Cell cell;
 
-    // <editor-fold defaultstate="collapsed" desc="Accessors Methods">
-    public int getX() {
-        return xPos;
+    private Player player;
+
+    private Color pieceColor;
+
+    public Piece(int x, int y, Color color) {
+        xPosition = x;
+        yPosition = y;
+        pieceColor = color;
     }
-    public int getY() {
-        return yPos;
-    }
-    public Board getBoard() {
-        return board;
-    }
-    public Cell getCell() {
-        return cell;
-    }
-    public Color getColor() {
-        return color;
-    }
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Mutator Methods">
-    public void setBoard(Board b) {
+
+    public Piece(Board b, Player p, int x, int y) {
         board = b;
-    }
-    public void setCell(Cell c) {
-        cell = c;
-    }
-    public void setPlayer(Player p) {
         player = p;
-    }
-    // </editor-fold>
-
-    abstract void onMove();
-    /**
-     * An abstract method for subclasses to define their rules on movement.
-     * @param xChg The change in x from the current cell
-     * @param yChg The change in y from the current cell
-     * @return If the piece, abiding by its movement laws, can move to the target cell.
-     */
-    abstract boolean pieceMoveSet(int xChg, int yChg);
-
-    /**
-     * Ensures that the move is not on the current cell, that the target cell is on the board, that, there are no
-     * friendly pieces on the target cell, and follows the movement protocol for that piece.
-     * @param xChg The change in x from the current cell
-     * @param yChg The change in y from the current cell
-     * @return If the piece can move to the target cell.
-     */
-    private boolean isValidMove(int xChg, int yChg) {
-        if(xChg == 0 && yChg == 0) {
-            if(board.getGame().getVerbose())
-                System.out.println("\t\t\t> No move is made.");
-            return false;
-        }
-        Cell target;
-        try {
-            target = cell.getNearbyCell(xChg, yChg);
-        } catch(ArrayIndexOutOfBoundsException ex) {
-            if(board.getGame().getVerbose())
-                System.out.println("\t\t\t> Target is out of board.");
-            return false;
-        }
-        if(target.getIsOccupied()) {
-            if (target.getOccupant().player == (player)) {
-                if(board.getGame().getVerbose()) {
-                    System.out.println("\t\t\t> Target has friendly piece in it.");
-                }
-                return false;
-            }
-        }
-        return pieceMoveSet(xChg, yChg);
-    }
-
-    /**
-     * Commands a piece to move to a cell x and y cells away from it
-     * @param xChg How far the piece should move along the x-axis
-     * @param yChg How far the piece should move along the y-axis
-     */
-    public final void move(int xChg, int yChg) {
-        if(board.getGame().getVerbose())
-            System.out.println("\t\t\t> Attempting to move " + this + " by (" + xChg + ", " + yChg + ") units.");
-
-        if(!isCaptured) {
-            if(isValidMove(xChg, yChg)) {
-                    Cell target = cell.getNearbyCell(xChg, yChg);
-                    if(target.getIsOccupied())
-                        target.getOccupant().captured();
-                    cell.setOccupant(null);
-                    xPos += xChg;
-                    yPos += yChg;
-                    cell = cell.getNearbyCell(xChg, yChg);
-                    cell.setOccupant(this);
-                    onMove();
-                    if (board.getGame().getVerbose())
-                        System.out.println("\t\t\t> Attempt successful.");
-                    return;
-            } else {
-                if(board.getGame().getVerbose())
-                    System.out.println("\t\t\t> Piece move is not valid.");
-            }
-        } else {
-            if(board.getGame().getVerbose())
-                System.out.println("\t\t\t> Piece is captured.");
-        }
-
-        if(board.getGame().getVerbose())
-            System.out.println("\t\t\t> Attempt failed.");
-    }
-
-    /**
-     * Called when the piece is captured by another piece from the move(int, int) method.
-     */
-    private void captured() {
-        if(board.getGame().getVerbose())
-            System.out.println("\t\t\t> " + this + " has been captured!");
-        isCaptured = true;
-        cell.setOccupant(null);
-        cell = null;
+        xPosition = x;
+        yPosition = y;
+        cell = board.getCell(xPosition, yPosition);
+        cell.setOccupant(this);
     }
 
     @Override public String toString() {
-        return "(" + getClass().getSimpleName() + ", (" + xPos + ", " + yPos + "), " + player + ")";
+        return "(" + ((pieceColor.equals(Color.WHITE)) ? "White " : "Black ") + getClass().getSimpleName() + ", (" + xPosition + ", " + yPosition + "), " + player + ")";
     }
 
-    public Piece(Color c, int x, int y) {
-        xPos = x;
-        yPos = y;
-        color = c;
-    }
-    Piece(Board b, Player p, int x, int y) {
-        board = b;
-        xPos = x;
-        yPos = y;
-        player = p;
-        cell = board.getCell(xPos, yPos);
-        cell.setOccupant(this);
-        isCaptured = false;
-        if(board.getGame().getVerbose()) {
-            System.out.println("\t\t\t> New " + getClass().getSimpleName() + " belonging to " + player + " successfully created at " + cell + ".");
-        }
-    }
+    public int getX()               { return xPosition; }
+    public int getY()               { return yPosition; }
+
+    public Board getBoard()         { return board; }
+    public void setBoard(Board b)   { board = b; }
+
+    public Cell getCell()           { return cell; }
+    public void setCell(Cell c)     { cell = c; }
+
+    public Color getColor()         { return pieceColor; }
 
 }

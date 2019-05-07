@@ -6,17 +6,16 @@ package piece;
  * @version 0.9.0
  */
 public final class King extends Piece {
-
-    @Override void onMove() {
+ void onMove() {
     }
-
-    @Override boolean pieceMoveSet(int xChg, int yChg) {
+ boolean pieceMoveSet(int xChg, int yChg) {
         return !(xChg < -1 || xChg > 1 || yChg < -1 || yChg > 1);
     }
 
-    public King(java.awt.Color c, int x, int y) {
-        super(c,x,y);
+    public King(int x, int y, java.awt.Color c) {
+        super(x, y, c);
     }
+
     public King(board.Board b, game.Player p, int x, int y) {
         super(b,p,x,y);
     }

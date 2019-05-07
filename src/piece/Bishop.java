@@ -11,16 +11,15 @@ public final class Bishop extends Piece {
         }
         return true;
     }
-
-    @Override void onMove() {}
-
-    @Override boolean pieceMoveSet(int xChg, int yChg) {
+ void onMove() {}
+ boolean pieceMoveSet(int xChg, int yChg) {
         return ( (xChg == yChg) && checkBishopMove(xChg, yChg) );
     }
 
-    public Bishop(java.awt.Color c, int x, int y) {
-        super(c,x,y);
+    public Bishop(int x, int y, java.awt.Color c) {
+        super(x, y, c);
     }
+
     public Bishop(board.Board b, game.Player p, int x, int y) {
         super(b,p,x,y);
     }

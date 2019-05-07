@@ -185,7 +185,7 @@ public abstract class ChessRunner {
             "\tMODE\t\t" + ((gameSingleplayer) ? "Singleplayer" : "Multiplayer") + "\n" +
             "\tCOLOR\t\t" + (gamePlayerColor.equals(Color.WHITE) ? "White" : "Black") + "\n" +
             "\tVERBOSE\t\t" + ((gameVerbosity) ? "On" : "Off") + "\n" +
-            "\tLayout\t\t" + gameLayout.name + "\n" +
+            //"\tLayout\t\t" + gameLayout.name + "\n" +
             "\tBoard Size\t" + gameType.getXSize() + "x" + gameType.getYSize() + "\n" +
             "\n\tSTART\tStart the game.");
             String input = getStringInput();
@@ -218,8 +218,8 @@ public abstract class ChessRunner {
                     help();
                     break;
                 case "start":
-                    Game game = new Game(gameVerbosity, gameType);
-                    game.run();
+                    //Game game = new Game(gameVerbosity, gameType);
+                    //game.run();
                     break newGameLoop;
                 default:
                     System.out.println("\'" + input + "\' is not an available option.");
@@ -257,7 +257,10 @@ public abstract class ChessRunner {
     }
 
     public static void main(String[] args) {
-        run();
+        //run();
+        Game game = new Game(new StandardChess());
+        Thread gameThread = new Thread(game);
+        gameThread.start();
     }
 
 }

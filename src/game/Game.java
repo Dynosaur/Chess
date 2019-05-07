@@ -1,56 +1,45 @@
 package game;
 
 import board.Board;
+
 import game.layout.PieceLayout;
+
 import game.type.GameType;
 
 /**
- * 2/10/2019
  * @author Alejandro Doberenz
- * @version 0.25
- *
- * A Game object is supposed to represent all the components of a chess game. This includes the rules, the size
- * of the board used, where the pieces are placed, and some other program functions.
+ * @version 4/27/2019
  */
 public class Game implements Runnable {
 
-    // <editor-fold defaultstate="collapsed" desc="Variables">
-    private boolean verbose;
-
+    // <editor-fold defaultstate="collapsed" desc="Variables"
     private GameType gameType;
 
     private Board board;
 
     private PieceLayout pieceLayout;
+
+    private Player currentPlayer;
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Accessor Methods">
-    public Board getBoard() {
-        return board;
-    }
-    public boolean getVerbose() {
-        return verbose;
-    }
-    // </editor-fold>
-
-    @Override public void run() {
-        boolean whiteTurn = true;
-        board.consoleDraw(true);
-        /*
-        gameLoop: while(true) {
-
-        }
-        */
-    }
-
-    public Game(boolean v, GameType gt) {
-        verbose = v;
+    public Game(GameType gt) {
         gameType = gt;
         pieceLayout = gameType.getPieceLayout();
-        System.out.println("\tNew Game initialized.");
-        board = new Board(this,gameType.getXSize(),gameType.getYSize());
+        board = new Board(gameType.getXSize(),gameType.getYSize());
         pieceLayout.setGame(this);
         pieceLayout.populate();
+    }
+
+    public Board getBoard() { return board; }
+
+    @Override public void run() {
+        System.out.print("The player to go first is: ");
+        if(util.Random.generate(0, 1) == 0) System.out.println("WHITE");
+        else System.out.println("BLACK");
+        board.consoleDrawWhite(true);
+        board.consoleDrawBlack(true);
+        System.out.println(board.getCell(0,0).getOccupant());
+        System.out.println(board.getCell(7,7).getOccupant());
     }
 
 }

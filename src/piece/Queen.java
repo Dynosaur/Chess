@@ -5,9 +5,9 @@ import game.Player;
 
 public final class Queen extends Piece {
 
-    @Override void onMove() {}
+     void onMove() {}
 
-    @Override boolean pieceMoveSet(int xChg, int yChg) {
+     boolean pieceMoveSet(int xChg, int yChg) {
         if((xChg == 0 && yChg != 0) || (xChg != 0 && yChg == 0)) {
             board.Cell target;
             if(xChg == 0) {
@@ -38,9 +38,10 @@ public final class Queen extends Piece {
         return false;
     }
 
-    public Queen(java.awt.Color c,int x, int y) {
-        super(c,x,y);
+    public Queen(int x, int y, java.awt.Color c) {
+        super(x, y, c);
     }
+
     public Queen(Board b, Player p, int x, int y) {
         super(b,p,x,y);
     }

@@ -4,42 +4,29 @@ import piece.Piece;
 
 /**
  * @author Alejandro Doberenz
- * @version 3/26/2019
- *
- * A Cell represents a single cell inside of a chessboard. A cell is part of a board, has an X and Y position,
- * and a piece (or not) upon it.
+ * @version 4/27/2019
  */
-public final class Cell {
+public final class Cell implements Cloneable {
 
-    // <editor-fold defaultstate="collapsed" desc="Variables">
-    private boolean isOccupied;     // Whether the cell is occupied or not.
+    // <editor-fold desc="Variables">
+    private int xPos, yPos;
 
-    private int xPos, yPos;         // The coordinates of the cell on the board.
+    private Board board;
 
-    private Board board;            // The board the cell is on.
+    private boolean isOccupied;
 
-    private Piece occupant;         // The piece occupying the cell.
+    private Piece occupant;
     // </editor-fold>
-
-    public boolean equals(Cell cell) {
-        return cell.board == board && cell.xPos == xPos && cell.yPos == yPos;
-    }
-
-    @Override public String toString() {
-        return "(" + xPos + ", " + yPos + ")";
-    }
 
     Cell(Board b, int x, int y) {
         board = b;
         xPos = x;
         yPos = y;
-        isOccupied  = false;
-        board.set_Cell(this, xPos, yPos);
-        if(board.getGame().getVerbose())
-            System.out.println("\t\t> New Cell created: " + this);
+        isOccupied = false;
+        board.setCell(this, xPos, yPos);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    // <editor-fold defaultstate="collapsed" desc="Accessor and Mutator Methods">
     public boolean getIsOccupied() { return isOccupied; }
 
     public int getX() { return xPos; }
@@ -58,4 +45,13 @@ public final class Cell {
     }
     // </editor-fold>
 
+    @Override public boolean equals(Object obj) {
+        if(!(obj instanceof Cell)) return false;
+        Cell cell = (Cell) obj;
+        return cell.board == board && cell.xPos == xPos && cell.yPos == yPos;
+    }
+
+    @Override public String toString() {
+        return "(" + xPos + ", " + yPos + ")";
+    }
 }

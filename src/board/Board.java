@@ -1,27 +1,40 @@
 package board;
 
-import game.Game;
-
 /**
  * @author Alejandro Doberenz
- * @version 3/26/2019
- *
- * A Board represents the board a game of chess is played on. A board has an X and Y length (Measured in cellArray), and a
- * 2D array of every cell that makes it up.
+ * @version 4/27/2019
  */
-public class Board {
+public class Board implements Cloneable {
 
     // <editor-fold defaultstate="collapsed" desc="Variables">
-    private int xLength, yLength;   // The number of Cells along the X and Y axis.
+    private int xLength, yLength;
 
-    private Cell[][] cellArray;     // A 2D representation of the board. (Y, X)
+    private Cell[][] cellArray;
+    // </editor-fold>
 
-    private Game game;
+    public Board(int x, int y) {
+        xLength = x;
+        yLength = y;
+        cellArray = new Cell[yLength][xLength];
+        for(int i = 0; i < yLength; i++) {
+            for(int j = 0; j < xLength; j++)
+                new Cell(this, j, i);
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Accessor and Mutator Methods">
+    public int getX()                       { return xLength; }
+
+    public int getY()                       { return yLength; }
+
+    public Cell[][] getCellArray()         { return cellArray; }
+
+    public Cell getCell(int x, int y)       { return cellArray[y][x]; }
+
+    void setCell(Cell cell, int x, int y)   { cellArray[y][x] = cell; }
     // </editor-fold>
 
     public void consoleDraw(boolean whiteBottom) {
-        if(game.getVerbose())
-            System.out.println("\t> Drawing board...\tWhite is bottom: " + whiteBottom);
         // Draw the top of the border
         for(int x = 0; x < xLength*3+4; x++)
             System.out.print("-");
@@ -33,10 +46,8 @@ public class Board {
                 System.out.print("|  ");
                 for(int x = 0; x < xLength; x++) {
                     Cell cell = getCell(x, y);
-                    if(cell.getIsOccupied())
-                        System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
-                    else
-                        System.out.print("O  ");
+                    if(cell.getIsOccupied()) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
                 }
                 System.out.println("|");
             }
@@ -45,10 +56,8 @@ public class Board {
                 System.out.print("|  ");
                 for(int x = xLength-1; x >= 0; x--) {
                     Cell cell = getCell(x, y);
-                    if(cell.getIsOccupied())
-                        System.out.print(cell.getOccupant().toString().toUpperCase().charAt(1) + "  ");
-                    else
-                        System.out.print("O  ");
+                    if(cell.getIsOccupied()) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
                 }
                 System.out.println("|");
             }
@@ -60,31 +69,74 @@ public class Board {
         System.out.println();
     }
 
-    public Board(Game g, int x, int y) {
-        xLength = x;
-        yLength = y;
-        game = g;                                   // in (Y, X) fashion rather than (X, Y)
-        cellArray = new Cell[yLength][xLength];     // Due to how 2D arrays are made in Java, it must be made
-        for(int i = 0; i < yLength; i++) {
-            for(int j = 0; j < xLength; j++)
-                new Cell(this, j, i);
+    public void consoleDrawWhite(boolean whiteBottom) {
+        // Draw the top of the border
+        for(int x = 0; x < xLength*3+4; x++)
+            System.out.print("-");
+        System.out.println();
+
+        // Draw each row
+        if(whiteBottom) {
+            for(int y = yLength - 1; y >= 0; y--) {
+                System.out.print("|  ");
+                for(int x = 0; x < xLength; x++) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied() && cell.getOccupant().getColor().equals(java.awt.Color.WHITE)) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
+                }
+                System.out.println("|");
+            }
+        } else {
+            for(int y = 0; y < yLength; y++) {
+                System.out.print("|  ");
+                for(int x = xLength-1; x >= 0; x--) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied() && cell.getOccupant().getColor().equals(java.awt.Color.WHITE)) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
+                }
+                System.out.println("|");
+            }
         }
-        if(game.getVerbose())
-            System.out.println("\t> New board successfully created.");
+
+        // Draw the bottom of the border
+        for(int x = 0; x < xLength*3+4; x++)
+            System.out.print("-");
+        System.out.println();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">
-    public int getX()                       { return xLength; }
+    public void consoleDrawBlack(boolean whiteBottom) {
+        // Draw the top of the border
+        for(int x = 0; x < xLength*3+4; x++)
+            System.out.print("-");
+        System.out.println();
 
-    public int getY()                       { return yLength; }
+        // Draw each row
+        if(whiteBottom) {
+            for(int y = yLength - 1; y >= 0; y--) {
+                System.out.print("|  ");
+                for(int x = 0; x < xLength; x++) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied() && cell.getOccupant().getColor().equals(java.awt.Color.BLACK)) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
+                }
+                System.out.println("|");
+            }
+        } else {
+            for(int y = 0; y < yLength; y++) {
+                System.out.print("|  ");
+                for(int x = xLength-1; x >= 0; x--) {
+                    Cell cell = getCell(x, y);
+                    if(cell.getIsOccupied() && cell.getOccupant().getColor().equals(java.awt.Color.BLACK)) System.out.print(cell.getOccupant().getClass().getSimpleName().charAt(0) + "  ");
+                    else System.out.print("O  ");
+                }
+                System.out.println("|");
+            }
+        }
 
-    public Cell[][] get_CellArray()         { return cellArray; }
-
-    public Cell getCell(int x, int y)       { return cellArray[y][x]; }
-
-    public Game getGame()                   { return game; }
-
-    void set_Cell(Cell cell, int x, int y)  { cellArray[y][x] = cell; }
-    // </editor-fold>
+        // Draw the bottom of the border
+        for(int x = 0; x < xLength*3+4; x++)
+            System.out.print("-");
+        System.out.println();
+    }
 
 }
