@@ -10,6 +10,7 @@ public class ChessRunner {
         Board gameBoard = game1.getBoard();
         new Pawn(gameBoard, 0, 0);
         gameBoard.consoleDraw();
+        System.out.println("I'm proud of you.");
     }
 
 }
